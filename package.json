@@ -1,6 +1,6 @@
 {
     "name": "sarax",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "微信小程序状态管理",
     "author": "ximing",
     "main": "./dist/index.js",
@@ -11,8 +11,8 @@
         "builddemo": "webpack --config webpack.build.demo.config.js",
         "buildlib": "webpack --config webpack.build.lib.config.js",
         "builddll": "webpack --config webpack.dll.config.js",
-        "build": "rimraf dist && mkdir dist && rsync -va -progress  ./src/* ./dist && babel --presets=es2015,stage-0,react  --plugins=transform-decorators-legacy src --out-dir dist",
-        "builddev": "rimraf ./example/sara && mkdir ./example/sara && rsync -va -progress  ./src/* ./example/sara && babel --presets=es2015,stage-0,react  --plugins=transform-decorators-legacy src --ignore '/src/libs/' --out-dir ./example/sara --watch",
+        "build": "rimraf dist && mkdir dist && rsync -va -progress  ./src/* ./dist && babel --presets=es2015,stage-0,react  --plugins=transform-decorators-legacy src --out-dir dist --ignore libs",
+        "builddev": "rimraf ./example/sara && mkdir ./example/sara && rsync -va -progress  ./src/* ./example/sara && babel --presets=es2015,stage-0,react  --plugins=transform-decorators-legacy src --ignore libs --out-dir ./example/sara --watch",
         "test": "./node_modules/.bin/jest",
         "test-watch": "./node_modules/.bin/jest --watch"
     },
