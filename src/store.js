@@ -2,7 +2,7 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
-import invariant from "./libs/invariant";
+import invariant from "invariant";
 import Module from "./module";
 
 export default class Store {

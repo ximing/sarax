@@ -2,11 +2,11 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
-import cloneDeep from "./libs/lodash.clonedeep";
-import trim from "./libs/lodash.trim";
+import cloneDeep from "lodash.clonedeep";
+import trim from "lodash.trim";
 import { isObject } from "./util";
-import invariant from "./libs/invariant";
-import { action, observable, extendObservable, computed } from "./libs/mobx/lib/mobx";
+import invariant from "invariant";
+import { action, observable, extendObservable, computed } from "mobx";
 
 export default class Module {
     get state() {

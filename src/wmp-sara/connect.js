@@ -3,7 +3,7 @@
  */
 "use strict";
 
-import { autorun, isObservable, toJS, observable, extendObservable } from "../libs/mobx/lib/mobx";
+import { autorun, isObservable, toJS, observable, extendObservable } from "mobx";
 import { activate } from "../util";
 
 export default function connect(options = {}, opt, ...args) {
