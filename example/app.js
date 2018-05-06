@@ -13,6 +13,11 @@ const store = new Store({
     increment(context) {
       context.commit('increment')
     }
+  },
+  getters:{
+    all(state){
+      return state.count+100;
+    }
   }
 })
 App({

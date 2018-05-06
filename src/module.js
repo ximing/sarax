@@ -9,6 +9,13 @@ import invariant from "./libs/invariant";
 import { action, observable, extendObservable, computed } from "./libs/mobx";
 
 export default class Module {
+    get state() {
+        return this;
+    }
+
+    get getters() {
+        return this;
+    }
     constructor(namespace, module, runtime) {
         let { state, actions, mutations, getters, modules, namespaced } = cloneDeep({
             actions: {},
@@ -23,13 +30,20 @@ export default class Module {
         invariant(isObject(getters), "getters should be object");
         invariant(isObject(mutations), "mutations should be object");
         this.modules = modules;
-        this.state = extendObservable(this, state);
+        for (let [key, fn] of Object.entries(getters)) {
+            Object.defineProperty(state, `${key}`, {
+                get: () => {
+                    return fn(this.state, this.getters);
+                },
+                enumerable: true
+            });
+        }
+        extendObservable(this, state);
         this.namespaced = namespaced;
         this.prefix = "";
         this.namespace = namespace;
         this.runtime = runtime;
         this.actions = {};
-        this.getters = {};
         this.mutations = {};
         let key = namespace;
         namespace = trim(namespace, "/");
@@ -48,16 +62,9 @@ export default class Module {
         for (let [key, fn] of Object.entries(actions)) {
             this["actions"][key] = action(`${namespace}/${key}`, fn.bind(this));
         }
-        for (let [key, fn] of Object.entries(getters)) {
-            this["getters"][key] = computed(fn, {
-                name: `${namespace}/${key}`,
-                context: this
-            });
-        }
         for (let [key, fn] of Object.entries(mutations)) {
             this["mutations"][key] = action(`${namespace}/${key}`, fn.bind(this));
         }
-
         if (module.namespaced && module.modules) {
             runtime.registerModules(`${namespace === "/" ? "" : "/"}`, module.modules);
         }

@@ -13,17 +13,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 var isObject = exports.isObject = function isObject(obj) {
     return obj === Object(obj);
 };
-var dispatch = exports.dispatch = function dispatch(path, type, _dispatch, payload) {
-    var opt = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : { root: false };
 
-    return function () {
-        if (opt.root) {
-            return _dispatch(type, payload);
-        } else {
-            return _dispatch(path + "/" + type, payload);
-        }
-    };
-};
 var activate = exports.activate = function activate(store) {
     var descriptors = Object.getOwnPropertyDescriptors(store);
     var _iteratorNormalCompletion = true;

@@ -86,11 +86,20 @@ var mapGetters = exports.mapGetters = normalizeNamespace(function (namespace, ge
         // thie namespace has been mutate by normalizeNamespace
         val = namespace + val;
         res[key] = function mappedGetter() {
-            if (namespace && !getModuleByNamespace(app.$store, "mapGetters", namespace)) {
-                return;
+            // if (namespace && !getModuleByNamespace(app.$store, "mapGetters", namespace)) {
+            //     return;
+            // }
+            if (namespace) {
+                var module = getModuleByNamespace(app.$store, "mapGetters", namespace);
+                if (!module || !(val in module.getters)) {
+                    console.error("[sarax] unknown getter: " + namespace + " " + val);
+                    return;
+                }
+                return module.getters[val];
             }
-            if (process.env.NODE_ENV !== "production" && !(val in app.$store.getters)) {
-                console.error("[vuex] unknown getter: " + val);
+            console.log("app.$store.getters", app.$store.getters);
+            if (!(val in app.$store.getters)) {
+                console.error("[sarax] unknown getter: " + val);
                 return;
             }
             return app.$store.getters[val];
@@ -172,7 +181,7 @@ function normalizeNamespace(fn) {
  */
 function getModuleByNamespace(store, helper, namespace) {
     var module = store._modulesNamespaceMap[namespace];
-    if (process.env.NODE_ENV !== "production" && !module) {
+    if (!module) {
         console.error("[sara] module namespace not found in " + helper + "(): " + namespace);
     } else if (namespace.charAt(namespace.length - 1) !== "/") {
         namespace += "/";

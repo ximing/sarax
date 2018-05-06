@@ -3971,7 +3971,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             process.argv = [];
             process.version = ""; // empty string to avoid regexp issues
             process.versions = {};
-
             function noop() {}
 
             process.on = noop;

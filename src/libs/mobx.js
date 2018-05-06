@@ -5015,7 +5015,6 @@ and limitations under the License.
                     process.argv = [];
                     process.version = ""; // empty string to avoid regexp issues
                     process.versions = {};
-
                     function noop() {}
 
                     process.on = noop;

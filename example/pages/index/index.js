@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var { connect, inject,mapState, mapMutations } = require('../../sara/index.js')
+var { connect, inject, mapState, mapMutations, mapGetters } = require('../../sara/index.js')
 
 Page(connect({
   data: {
@@ -13,7 +13,8 @@ Page(connect({
   props:{
     ...mapState({
       s:state=>state.count
-    })
+    }),
+    ...mapGetters(['all'])
   },
   //事件处理函数
   bindViewTap: function() {
