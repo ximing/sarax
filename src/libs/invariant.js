@@ -18,7 +18,7 @@
  * will remain to ensure logic does not differ in production.
  */
 
-var invariant = function(condition, format, a, b, c, d, e, f) {
+export default function(condition, format, a, b, c, d, e, f) {
     if (!condition) {
         var error;
         if (format === undefined) {
@@ -40,6 +40,4 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
         error.framesToPop = 1; // we don't care about invariant's own frame
         throw error;
     }
-};
-
-module.exports = invariant;
+}

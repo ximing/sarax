@@ -6,10 +6,8 @@ var { connect, inject, mapState, mapMutations, mapGetters } = require('../../sar
 Page(connect({
   data: {
     motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
-  },
+    userInfo: {}
+      },
   props:{
     ...mapState({
       s:state=>state.count
@@ -26,8 +24,7 @@ Page(connect({
     console.log(this.data, this.props)
   },
   getUserInfo: function(e) {
-    console.log(e)
-    console.log('+++++',this);
+    console.log('+++++');
     app.$store.commit('increment',100)
   }
 })

@@ -10,14 +10,12 @@ export default class Store {
         this._modulesNamespaceMap = Object.create(null);
         this.registerModules("", modules);
         this.registerModule("/", module);
-        console.log(this._modulesNamespaceMap["/"].state);
     }
     get rootModule() {
         return this._modulesNamespaceMap["/"];
     }
 
     get state() {
-        console.log("store.js  rote state", this.rootModule);
         return this.rootModule.state;
     }
     get actions() {

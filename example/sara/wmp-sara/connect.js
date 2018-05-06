@@ -44,6 +44,7 @@ function connect() {
         autoRunList: [],
 
         reactiveState: function reactiveState(key, value) {
+            console.log("---->", "reactiveState", key);
             this.setData(_defineProperty({}, key, (0, _mobx.isObservable)(value) ? (0, _mobx.toJS)(value) : value));
         },
         setAutoRun: function setAutoRun() {
@@ -51,7 +52,6 @@ function connect() {
 
             Object.keys(this.props).forEach(function (propName) {
                 var prop = _this.props[propName];
-                console.log("prop name", propName, prop, (0, _mobx.isObservable)(prop));
                 if (typeof prop === "function") {
                     _this.autoRunList.push(autoRunFactory(propName + "/function", function () {
                         _this.reactiveState(propName, prop.apply(_this));
@@ -110,7 +110,6 @@ function connect() {
         onLoad: function onLoad() {
             Object.defineProperty(this, "props", propsDescriptor);
             Object.defineProperty(this, "props", { value: this.props });
-            console.log("onLoad", app.$store._modulesNamespaceMap["/"].state);
             this.setAutoRun();
             _onLoad && _onLoad.call(this, this.options);
         },

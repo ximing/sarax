@@ -6,7 +6,7 @@ import cloneDeep from "./libs/lodash.clonedeep";
 import trim from "./libs/lodash.trim";
 import { isObject } from "./util";
 import invariant from "./libs/invariant";
-import { action, observable, extendObservable, computed } from "./libs/mobx";
+import { action, observable, extendObservable, computed } from "./libs/mobx/lib/mobx";
 
 export default class Module {
     get state() {

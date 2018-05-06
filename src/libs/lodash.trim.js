@@ -398,4 +398,4 @@ function trim(string, chars, guard) {
     return castSlice(strSymbols, start, end).join("");
 }
 
-module.exports = trim;
+export default trim;

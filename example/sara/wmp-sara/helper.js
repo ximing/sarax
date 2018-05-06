@@ -97,7 +97,6 @@ var mapGetters = exports.mapGetters = normalizeNamespace(function (namespace, ge
                 }
                 return module.getters[val];
             }
-            console.log("app.$store.getters", app.$store.getters);
             if (!(val in app.$store.getters)) {
                 console.error("[sarax] unknown getter: " + val);
                 return;

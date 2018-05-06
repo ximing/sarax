@@ -3,7 +3,7 @@
  */
 "use strict";
 
-import { autorun, isObservable, toJS, observable, extendObservable } from "../libs/mobx";
+import { autorun, isObservable, toJS, observable, extendObservable } from "../libs/mobx/lib/mobx";
 import { activate } from "../util";
 
 export default function connect(options = {}, opt, ...args) {
@@ -23,13 +23,13 @@ export default function connect(options = {}, opt, ...args) {
         autoRunList: [],
 
         reactiveState(key, value) {
+            console.log("---->", "reactiveState", key);
             this.setData({ [key]: isObservable(value) ? toJS(value) : value });
         },
 
         setAutoRun() {
             Object.keys(this.props).forEach(propName => {
                 const prop = this.props[propName];
-                console.log("prop name", propName, prop, isObservable(prop));
                 if (typeof prop === "function") {
                     this.autoRunList.push(
                         autoRunFactory(`${propName}/function`, () => {
@@ -67,7 +67,6 @@ export default function connect(options = {}, opt, ...args) {
         onLoad() {
             Object.defineProperty(this, "props", propsDescriptor);
             Object.defineProperty(this, "props", { value: this.props });
-            console.log("onLoad", app.$store._modulesNamespaceMap["/"].state);
             this.setAutoRun();
             onLoad && onLoad.call(this, this.options);
         },
