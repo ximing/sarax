@@ -4,3 +4,10 @@
 "use strict";
 export Store from "./store";
 export connect from "./wmp-sara/connect";
+export {
+    mapState,
+    mapMutations,
+    mapGetters,
+    mapActions,
+    createNamespacedHelpers
+} from "./wmp-sara/helper";

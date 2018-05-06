@@ -12,7 +12,7 @@ export default class Store {
         this.registerModules(modules);
         this.registerModule("/", module);
     }
-    _modulesNamespaceMap = {};
+    _modulesNamespaceMap = Object.create(null);
 
     get rootModule() {
         return this._modulesNamespaceMap["/"];
@@ -31,6 +31,10 @@ export default class Store {
         return this.rootModule.getters;
     }
 
+    get module() {
+        return this._modulesNamespaceMap;
+    }
+
     registerModules = (path = "", modules) => {
         for (let [key, module] of Object.entries(modules)) {
             this.registerModule(`${path}${key}`, module);
@@ -42,33 +46,16 @@ export default class Store {
         this._modulesNamespaceMap[path] = new Module(path, module, this);
     };
 
-    unregisterModule = path => {};
-
-    dispatch = (type, payload = {}, options = {}) => {
-        if (!this._modulesNamespaceMap[type]) {
-            return;
-        }
-        if (isObject(type)) {
-            payload = type;
-            type = type.type;
-            options = payload;
-        }
-        this._modulesNamespaceMap[type](
-            {
-                state: this.modules[type].state,
-                rootState: this.state,
-                commit: this.commit,
-                dispatch: this.dispatch,
-                getters: this.getters
-            },
-            payload
-        );
+    unregisterModule = path => {
+        delete this._modulesNamespaceMap[path];
     };
 
-    commit = (type, payload) => {
-        if (this.mutations[type]) {
-            this.mutations[type](state, payload);
-        }
+    dispatch = (type, payload = {}, options = { root: false }) => {
+        return this.rootModule.dispatch(type, payload, options);
+    };
+
+    commit = (type, payload, options = { root: false }) => {
+        return this.rootModule.commit(type, payload, options);
     };
 
     watch = () => {};
