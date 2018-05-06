@@ -1,7 +1,3 @@
-"use strict";
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -39,21 +35,34 @@ var rsAstral = "[" + rsAstralRange + "]",
 /** Used to compose unicode regexes. */
 var reOptMod = rsModifier + "?",
     rsOptVar = "[" + rsVarRange + "]?",
-    rsOptJoin = "(?:" + rsZWJ + "(?:" + [rsNonAstral, rsRegional, rsSurrPair].join("|") + ")" + rsOptVar + reOptMod + ")*",
+    rsOptJoin =
+        "(?:" +
+        rsZWJ +
+        "(?:" +
+        [rsNonAstral, rsRegional, rsSurrPair].join("|") +
+        ")" +
+        rsOptVar +
+        reOptMod +
+        ")*",
     rsSeq = rsOptVar + reOptMod + rsOptJoin,
-    rsSymbol = "(?:" + [rsNonAstral + rsCombo + "?", rsCombo, rsRegional, rsSurrPair, rsAstral].join("|") + ")";
+    rsSymbol =
+        "(?:" +
+        [rsNonAstral + rsCombo + "?", rsCombo, rsRegional, rsSurrPair, rsAstral].join("|") +
+        ")";
 
 /** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
 var reUnicode = RegExp(rsFitz + "(?=" + rsFitz + ")|" + rsSymbol + rsSeq, "g");
 
 /** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
-var reHasUnicode = RegExp("[" + rsZWJ + rsAstralRange + rsComboMarksRange + rsComboSymbolsRange + rsVarRange + "]");
+var reHasUnicode = RegExp(
+    "[" + rsZWJ + rsAstralRange + rsComboMarksRange + rsComboSymbolsRange + rsVarRange + "]"
+);
 
 /** Detect free variable `global` from Node.js. */
-var freeGlobal = (typeof global === "undefined" ? "undefined" : _typeof(global)) == "object" && global && global.Object === Object && global;
+var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
 
 /** Detect free variable `self`. */
-var freeSelf = (typeof self === "undefined" ? "undefined" : _typeof(self)) == "object" && self && self.Object === Object && self;
+var freeSelf = typeof self == "object" && self && self.Object === Object && self;
 
 /** Used as a reference to the global object. */
 var root = freeGlobal || freeSelf || Function("return this")();
@@ -204,10 +213,10 @@ var objectProto = Object.prototype;
 var objectToString = objectProto.toString;
 
 /** Built-in value references. */
-var _Symbol = root.Symbol;
+var Symbol = root.Symbol;
 
 /** Used to convert symbols to primitives and strings. */
-var symbolProto = _Symbol ? _Symbol.prototype : undefined,
+var symbolProto = Symbol ? Symbol.prototype : undefined,
     symbolToString = symbolProto ? symbolProto.toString : undefined;
 
 /**
@@ -230,7 +239,7 @@ function baseSlice(array, start, end) {
     if (end < 0) {
         end += length;
     }
-    length = start > end ? 0 : end - start >>> 0;
+    length = start > end ? 0 : (end - start) >>> 0;
     start >>>= 0;
 
     var result = Array(length);
@@ -300,7 +309,7 @@ function castSlice(array, start, end) {
  * // => false
  */
 function isObjectLike(value) {
-    return !!value && (typeof value === "undefined" ? "undefined" : _typeof(value)) == "object";
+    return !!value && typeof value == "object";
 }
 
 /**
@@ -321,7 +330,9 @@ function isObjectLike(value) {
  * // => false
  */
 function isSymbol(value) {
-    return (typeof value === "undefined" ? "undefined" : _typeof(value)) == "symbol" || isObjectLike(value) && objectToString.call(value) == symbolTag;
+    return (
+        typeof value == "symbol" || (isObjectLike(value) && objectToString.call(value) == symbolTag)
+    );
 }
 
 /**

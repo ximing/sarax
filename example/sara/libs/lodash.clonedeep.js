@@ -1,7 +1,3 @@
-"use strict";
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -67,23 +63,33 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
 
 /** Used to identify `toStringTag` values supported by `_.clone`. */
 var cloneableTags = {};
-cloneableTags[argsTag] = cloneableTags[arrayTag] = cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] = cloneableTags[boolTag] = cloneableTags[dateTag] = cloneableTags[float32Tag] = cloneableTags[float64Tag] = cloneableTags[int8Tag] = cloneableTags[int16Tag] = cloneableTags[int32Tag] = cloneableTags[mapTag] = cloneableTags[numberTag] = cloneableTags[objectTag] = cloneableTags[regexpTag] = cloneableTags[setTag] = cloneableTags[stringTag] = cloneableTags[symbolTag] = cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] = cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
+cloneableTags[argsTag] = cloneableTags[arrayTag] = cloneableTags[arrayBufferTag] = cloneableTags[
+    dataViewTag
+] = cloneableTags[boolTag] = cloneableTags[dateTag] = cloneableTags[float32Tag] = cloneableTags[
+    float64Tag
+] = cloneableTags[int8Tag] = cloneableTags[int16Tag] = cloneableTags[int32Tag] = cloneableTags[
+    mapTag
+] = cloneableTags[numberTag] = cloneableTags[objectTag] = cloneableTags[regexpTag] = cloneableTags[
+    setTag
+] = cloneableTags[stringTag] = cloneableTags[symbolTag] = cloneableTags[uint8Tag] = cloneableTags[
+    uint8ClampedTag
+] = cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
 cloneableTags[errorTag] = cloneableTags[funcTag] = cloneableTags[weakMapTag] = false;
 
 /** Detect free variable `global` from Node.js. */
-var freeGlobal = (typeof global === "undefined" ? "undefined" : _typeof(global)) == "object" && global && global.Object === Object && global;
+var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
 
 /** Detect free variable `self`. */
-var freeSelf = (typeof self === "undefined" ? "undefined" : _typeof(self)) == "object" && self && self.Object === Object && self;
+var freeSelf = typeof self == "object" && self && self.Object === Object && self;
 
 /** Used as a reference to the global object. */
 var root = freeGlobal || freeSelf || Function("return this")();
 
 /** Detect free variable `exports`. */
-var freeExports = (typeof exports === "undefined" ? "undefined" : _typeof(exports)) == "object" && exports && !exports.nodeType && exports;
+var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
 
 /** Detect free variable `module`. */
-var freeModule = freeExports && (typeof module === "undefined" ? "undefined" : _typeof(module)) == "object" && module && !module.nodeType && module;
+var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
 
 /** Detect the popular CommonJS extension `module.exports`. */
 var moduleExports = freeModule && freeModule.exports === freeExports;
@@ -242,7 +248,7 @@ function mapToArray(map) {
     var index = -1,
         result = Array(map.size);
 
-    map.forEach(function (value, key) {
+    map.forEach(function(value, key) {
         result[++index] = [key, value];
     });
     return result;
@@ -257,7 +263,7 @@ function mapToArray(map) {
  * @returns {Function} Returns the new function.
  */
 function overArg(func, transform) {
-    return function (arg) {
+    return function(arg) {
         return func(transform(arg));
     };
 }
@@ -273,7 +279,7 @@ function setToArray(set) {
     var index = -1,
         result = Array(set.size);
 
-    set.forEach(function (value) {
+    set.forEach(function(value) {
         result[++index] = value;
     });
     return result;
@@ -288,10 +294,10 @@ var arrayProto = Array.prototype,
 var coreJsData = root["__core-js_shared__"];
 
 /** Used to detect methods masquerading as native. */
-var maskSrcKey = function () {
-    var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+var maskSrcKey = (function() {
+    var uid = /[^.]+$/.exec((coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO) || "");
     return uid ? "Symbol(src)_1." + uid : "";
-}();
+})();
 
 /** Used to resolve the decompiled source of functions. */
 var funcToString = funcProto.toString;
@@ -307,11 +313,18 @@ var hasOwnProperty = objectProto.hasOwnProperty;
 var objectToString = objectProto.toString;
 
 /** Used to detect if a method is native. */
-var reIsNative = RegExp("^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
+var reIsNative = RegExp(
+    "^" +
+        funcToString
+            .call(hasOwnProperty)
+            .replace(reRegExpChar, "\\$&")
+            .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") +
+        "$"
+);
 
 /** Built-in value references. */
 var Buffer = moduleExports ? root.Buffer : undefined,
-    _Symbol = root.Symbol,
+    Symbol = root.Symbol,
     Uint8Array = root.Uint8Array,
     getPrototype = overArg(Object.getPrototypeOf, Object),
     objectCreate = Object.create,
@@ -339,7 +352,7 @@ var dataViewCtorString = toSource(DataView),
     weakMapCtorString = toSource(WeakMap);
 
 /** Used to convert symbols to primitives and strings. */
-var symbolProto = _Symbol ? _Symbol.prototype : undefined,
+var symbolProto = Symbol ? Symbol.prototype : undefined,
     symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
 
 /**
@@ -755,7 +768,10 @@ function arrayLikeKeys(value, inherited) {
         skipIndexes = !!length;
 
     for (var key in value) {
-        if ((inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && (key == "length" || isIndex(key, length)))) {
+        if (
+            (inherited || hasOwnProperty.call(value, key)) &&
+            !(skipIndexes && (key == "length" || isIndex(key, length)))
+        ) {
             result.push(key);
         }
     }
@@ -774,7 +790,10 @@ function arrayLikeKeys(value, inherited) {
  */
 function assignValue(object, key, value) {
     var objValue = object[key];
-    if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || value === undefined && !(key in object)) {
+    if (
+        !(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+        (value === undefined && !(key in object))
+    ) {
         object[key] = value;
     }
 }
@@ -848,7 +867,7 @@ function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
         if (isBuffer(value)) {
             return cloneBuffer(value, isDeep);
         }
-        if (tag == objectTag || tag == argsTag || isFunc && !object) {
+        if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
             if (isHostObject(value)) {
                 return object ? value : {};
             }
@@ -874,13 +893,17 @@ function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
     if (!isArr) {
         var props = isFull ? getAllKeys(value) : keys(value);
     }
-    arrayEach(props || value, function (subValue, key) {
+    arrayEach(props || value, function(subValue, key) {
         if (props) {
             key = subValue;
             subValue = value[key];
         }
         // Recursively populate clone (susceptible to call stack limits).
-        assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
+        assignValue(
+            result,
+            key,
+            baseClone(subValue, isDeep, isFull, customizer, key, value, stack)
+        );
     });
     return result;
 }
@@ -1106,7 +1129,9 @@ function copyObject(source, props, object, customizer) {
     while (++index < length) {
         var key = props[index];
 
-        var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
+        var newValue = customizer
+            ? customizer(object[key], source[key], key, object, source)
+            : undefined;
 
         assignValue(object, key, newValue === undefined ? source[key] : newValue);
     }
@@ -1182,8 +1207,14 @@ var getTag = baseGetTag;
 
 // Fallback for data views, maps, sets, and weak maps in IE 11,
 // for data views in Edge < 14, and promises in Node.js.
-if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map && getTag(new Map()) != mapTag || Promise && getTag(Promise.resolve()) != promiseTag || Set && getTag(new Set()) != setTag || WeakMap && getTag(new WeakMap()) != weakMapTag) {
-    getTag = function getTag(value) {
+if (
+    (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map()) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set()) != setTag) ||
+    (WeakMap && getTag(new WeakMap()) != weakMapTag)
+) {
+    getTag = function(value) {
         var result = objectToString.call(value),
             Ctor = result == objectTag ? value.constructor : undefined,
             ctorString = Ctor ? toSource(Ctor) : undefined;
@@ -1233,7 +1264,9 @@ function initCloneArray(array) {
  * @returns {Object} Returns the initialized clone.
  */
 function initCloneObject(object) {
-    return typeof object.constructor == "function" && !isPrototype(object) ? baseCreate(getPrototype(object)) : {};
+    return typeof object.constructor == "function" && !isPrototype(object)
+        ? baseCreate(getPrototype(object))
+        : {};
 }
 
 /**
@@ -1301,7 +1334,11 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
  */
 function isIndex(value, length) {
     length = length == null ? MAX_SAFE_INTEGER : length;
-    return !!length && (typeof value == "number" || reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
+    return (
+        !!length &&
+        (typeof value == "number" || reIsUint.test(value)) &&
+        (value > -1 && value % 1 == 0 && value < length)
+    );
 }
 
 /**
@@ -1312,8 +1349,10 @@ function isIndex(value, length) {
  * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
  */
 function isKeyable(value) {
-    var type = typeof value === "undefined" ? "undefined" : _typeof(value);
-    return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+    var type = typeof value;
+    return type == "string" || type == "number" || type == "symbol" || type == "boolean"
+        ? value !== "__proto__"
+        : value === null;
 }
 
 /**
@@ -1336,7 +1375,7 @@ function isMasked(func) {
  */
 function isPrototype(value) {
     var Ctor = value && value.constructor,
-        proto = typeof Ctor == "function" && Ctor.prototype || objectProto;
+        proto = (typeof Ctor == "function" && Ctor.prototype) || objectProto;
 
     return value === proto;
 }
@@ -1415,7 +1454,7 @@ function cloneDeep(value) {
  * // => true
  */
 function eq(value, other) {
-    return value === other || value !== value && other !== other;
+    return value === other || (value !== value && other !== other);
 }
 
 /**
@@ -1438,7 +1477,11 @@ function eq(value, other) {
  */
 function isArguments(value) {
     // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-    return isArrayLikeObject(value) && hasOwnProperty.call(value, "callee") && (!propertyIsEnumerable.call(value, "callee") || objectToString.call(value) == argsTag);
+    return (
+        isArrayLikeObject(value) &&
+        hasOwnProperty.call(value, "callee") &&
+        (!propertyIsEnumerable.call(value, "callee") || objectToString.call(value) == argsTag)
+    );
 }
 
 /**
@@ -1623,7 +1666,7 @@ function isLength(value) {
  * // => false
  */
 function isObject(value) {
-    var type = typeof value === "undefined" ? "undefined" : _typeof(value);
+    var type = typeof value;
     return !!value && (type == "object" || type == "function");
 }
 
@@ -1652,7 +1695,7 @@ function isObject(value) {
  * // => false
  */
 function isObjectLike(value) {
-    return !!value && (typeof value === "undefined" ? "undefined" : _typeof(value)) == "object";
+    return !!value && typeof value == "object";
 }
 
 /**
