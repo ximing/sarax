@@ -3,32 +3,56 @@
  */
 "use strict";
 
-import { autorun, isObservable, toJS } from "./libs/mobx";
-import { activate } from "./util";
+import { autorun, isObservable, toJS, observable, extendObservable } from "../libs/mobx";
+import { activate } from "../util";
 
-export default function connect(options = {}, ...args) {
+export default function connect(options = {}, opt, ...args) {
     const { onLoad, onHide, onShow, onUnload } = options;
+    opt = Object.assign({ componentName: "", delay: 0 }, opt);
     const propsDescriptor = Object.getOwnPropertyDescriptor(options, "props");
     Object.defineProperty(options, "props", { value: null });
-
+    const app = getApp();
+    const autoRunFactory = (name = "", fn) => {
+        return autorun(fn, {
+            name: `${opt.componentName}/${name}`,
+            ...opt
+        });
+    };
     const observerOptions = {
+        $store: app.$store,
         autoRunList: [],
 
-        reactiveCompute(key, value) {
-            this.setData({ [key]: toJS(value) });
+        reactiveState(key, value) {
+            this.setData({ [key]: isObservable(value) ? toJS(value) : value });
         },
 
         setAutoRun() {
             Object.keys(this.props).forEach(propName => {
                 const prop = this.props[propName];
-                if (isObservable(prop)) {
+                console.log("prop name", propName, prop, isObservable(prop));
+                if (typeof prop === "function") {
+                    this.autoRunList.push(
+                        autoRunFactory(`${propName}/function`, () => {
+                            this.reactiveState(propName, prop.apply(this));
+                        })
+                    );
+                } else if (isObservable(prop)) {
                     activate(prop);
-                    this.autoRunList.push(autorun(() => this.reactiveCompute(propName, prop)));
+                    this.autoRunList.push(
+                        autoRunFactory(`${propName}/observable`, () => {
+                            this.reactiveState(propName, prop);
+                        })
+                    );
                 } else {
                     for (let [key, value] of Object.entries(prop)) {
                         activate(value);
+                        if (!isObservable(value)) {
+                            value = observable(value);
+                        }
                         this.autoRunList.push(
-                            autorun(() => this.reactiveCompute(`${propName}.${key}`, value))
+                            autoRunFactory(`${propName}/map`, () => {
+                                this.reactiveState(`${propName}.${key}`, value);
+                            })
                         );
                     }
                 }
@@ -43,6 +67,7 @@ export default function connect(options = {}, ...args) {
         onLoad() {
             Object.defineProperty(this, "props", propsDescriptor);
             Object.defineProperty(this, "props", { value: this.props });
+            console.log("onLoad", app.$store._modulesNamespaceMap["/"].state);
             this.setAutoRun();
             onLoad && onLoad.call(this, this.options);
         },
@@ -63,6 +88,5 @@ export default function connect(options = {}, ...args) {
             onHide && onHide.call(this);
         }
     };
-
-    return Page(Object.assign(options, ...args, observerOptions));
+    return Object.assign(options, ...args, observerOptions);
 }

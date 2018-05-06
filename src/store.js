@@ -2,23 +2,22 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
-import invariant from "invariant";
-
+import invariant from "./libs/invariant";
 import Module from "./module";
-import { isObject, dispatch } from "./util";
 
 export default class Store {
-    constructor({ modules = {}, ...module } = {}) {
-        this.registerModules(modules);
+    constructor({ modules = Object.create(null), ...module } = {}) {
+        this._modulesNamespaceMap = Object.create(null);
+        this.registerModules("", modules);
         this.registerModule("/", module);
+        console.log(this._modulesNamespaceMap["/"].state);
     }
-    _modulesNamespaceMap = Object.create(null);
-
     get rootModule() {
         return this._modulesNamespaceMap["/"];
     }
 
     get state() {
+        console.log("store.js  rote state", this.rootModule);
         return this.rootModule.state;
     }
     get actions() {
@@ -42,7 +41,7 @@ export default class Store {
     };
 
     registerModule = (path, module) => {
-        invariant(!this.modules[path], "module must be unique");
+        invariant(!this._modulesNamespaceMap[path], "module must be unique");
         this._modulesNamespaceMap[path] = new Module(path, module, this);
     };
 

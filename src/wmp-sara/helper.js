@@ -2,8 +2,6 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
-const app = getApp();
-
 /**
  * Reduce the code which written in Vue.js for getting the state.
  * @param {String} [namespace] - Module's namespace
@@ -12,6 +10,7 @@ const app = getApp();
  */
 export const mapState = normalizeNamespace((namespace, states) => {
     const res = {};
+    const app = getApp();
     normalizeMap(states).forEach(({ key, val }) => {
         res[key] = function mappedState() {
             let state = app.$store.state;
@@ -38,6 +37,7 @@ export const mapState = normalizeNamespace((namespace, states) => {
  */
 export const mapMutations = normalizeNamespace((namespace, mutations) => {
     const res = {};
+    const app = getApp();
     normalizeMap(mutations).forEach(({ key, val }) => {
         res[key] = function mappedMutation(...args) {
             // Get the commit method from store
@@ -65,6 +65,7 @@ export const mapMutations = normalizeNamespace((namespace, mutations) => {
  */
 export const mapGetters = normalizeNamespace((namespace, getters) => {
     const res = {};
+    const app = getApp();
     normalizeMap(getters).forEach(({ key, val }) => {
         // thie namespace has been mutate by normalizeNamespace
         val = namespace + val;
@@ -90,6 +91,7 @@ export const mapGetters = normalizeNamespace((namespace, getters) => {
  */
 export const mapActions = normalizeNamespace((namespace, actions) => {
     const res = {};
+    const app = getApp();
     normalizeMap(actions).forEach(({ key, val }) => {
         res[key] = function mappedAction(...args) {
             // get dispatch function from store

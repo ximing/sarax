@@ -2,11 +2,11 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
-import cloneDeep from "lodash.clonedeep";
-import trim from "lodash.trim";
+import cloneDeep from "./libs/lodash.clonedeep";
+import trim from "./libs/lodash.trim";
 import { isObject } from "./util";
-import invariant from "invariant";
-import { action, observable } from "./libs/mobx";
+import invariant from "./libs/invariant";
+import { action, observable, extendObservable, computed } from "./libs/mobx";
 
 export default class Module {
     constructor(namespace, module, runtime) {
@@ -23,27 +23,36 @@ export default class Module {
         invariant(isObject(getters), "getters should be object");
         invariant(isObject(mutations), "mutations should be object");
         this.modules = modules;
-        this.state = observable(state);
+        this.state = extendObservable(this, state);
         this.namespaced = namespaced;
         this.prefix = "";
         this.namespace = namespace;
         this.runtime = runtime;
-        let key = namespace,
-            _saraState = runtime.state;
-        trim(namespace, "/")
-            .split("/")
-            .slice(0, -1)
-            .forEach(_key => {
-                this.prefix += `${_key}/`;
-                _saraState = _saraState[_key];
-                key = _key;
-            });
-        _saraState[key] = this.state;
+        this.actions = {};
+        this.getters = {};
+        this.mutations = {};
+        let key = namespace;
+        namespace = trim(namespace, "/");
+        if (namespace !== "") {
+            let _saraState = runtime.state;
+            namespace
+                .split("/")
+                .slice(0, -1)
+                .forEach(_key => {
+                    this.prefix += `${_key}/`;
+                    _saraState = _saraState[_key];
+                    key = _key;
+                });
+            _saraState[key] = this.state;
+        }
         for (let [key, fn] of Object.entries(actions)) {
             this["actions"][key] = action(`${namespace}/${key}`, fn.bind(this));
         }
         for (let [key, fn] of Object.entries(getters)) {
-            this["getters"][key] = action(`${namespace}/${key}`, fn.bind(this));
+            this["getters"][key] = computed(fn, {
+                name: `${namespace}/${key}`,
+                context: this
+            });
         }
         for (let [key, fn] of Object.entries(mutations)) {
             this["mutations"][key] = action(`${namespace}/${key}`, fn.bind(this));
@@ -54,7 +63,7 @@ export default class Module {
         }
     }
 
-    _baseModuleCall = (scope, args, type, payload = {}, options = { root: false }) => {
+    _baseModuleCall = (scope, args, type, payload, options = { root: false }) => {
         if (isObject(type)) {
             payload = type;
             if (!type.type) {
@@ -68,25 +77,25 @@ export default class Module {
         }
         let namespace = type.split("/");
         let fnName = namespace.pop();
-        namespace = namespace.join("/");
-        if (!this._modulesNamespaceMap[namespace]) {
-            console.error(`not find ${namespace} module`);
+        namespace = namespace.join("/") || "/";
+        if (!this.runtime._modulesNamespaceMap[namespace]) {
+            console.error(`can't find ${namespace} module`);
             return;
         }
-        if (this.runtime._modulesNamespaceMap[namespace][scope][fnName]) {
-            console.error(`not find ${fnName}() in ${namespace}['${scope}']`);
+        if (!this.runtime._modulesNamespaceMap[namespace][scope][fnName]) {
+            console.error(`can't find ${fnName}() in module['${namespace}']['${scope}']`);
             return;
         }
         return this.runtime._modulesNamespaceMap[namespace][scope][fnName](...args);
     };
 
     commit = (type = this.namespace, payload, options = { root: false }) => {
-        return this._baseModuleCall("mutations", [payload], type, payload, options);
+        return this._baseModuleCall("mutations", [this.state, payload], type, payload, options);
     };
 
     dispatch = (type = this.namespace, payload, options = { root: false }) => {
         return this._baseModuleCall(
-            "mutations",
+            "actions",
             [
                 {
                     state: this.state,
