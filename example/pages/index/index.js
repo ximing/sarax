@@ -40,8 +40,8 @@ Page(inject({
       test:"sssaaa"
     })
     setTimeout(()=>{
-      console.log(this.data)
-    },2000)
+      this.$data = { motto: '12345'} 
+    },1000)
   }
 })
 )

@@ -2,7 +2,7 @@
  * Created by ximing on 2018/5/7.
  */
 "use strict";
-import { autorun, isObservable, toJS, observable, extendObservable } from "mobx";
+import { autorun, isObservable, toJS, observable, observe } from "mobx";
 import { activate } from "../util";
 const autoRunFactory = (name = "", fn, opt) => {
     return autorun(fn, {

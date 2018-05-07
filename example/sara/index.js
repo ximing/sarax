@@ -2312,7 +2312,7 @@ module.exports = trim;
 /* unused harmony export observe */
 /* unused harmony export intercept */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return autorun; });
-/* unused harmony export reaction */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return reaction; });
 /* unused harmony export when */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return action; });
 /* unused harmony export isAction */
@@ -2328,7 +2328,7 @@ module.exports = trim;
 /* unused harmony export onBecomeObserved */
 /* unused harmony export onBecomeUnobserved */
 /* unused harmony export flow */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return toJS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return toJS; });
 /* unused harmony export trace */
 /* unused harmony export getDependencyTree */
 /* unused harmony export getObserverTree */
@@ -7210,35 +7210,44 @@ function connect() {
             var _this = this;
 
             this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
+            Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
+                return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
+            }, function ($data) {
+                console.log("$data", $data);
+                _this.setData($data, false);
+            });
             var _setData = this.setData;
             var hookSetData = function hookSetData(data) {
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
+                var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-                try {
-                    for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var _step$value = _slicedToArray(_step.value, 2),
-                            key = _step$value[0],
-                            item = _step$value[1];
+                if (native) {
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
 
-                        _this.$data[key] = item;
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally {
                     try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
+                        for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var _step$value = _slicedToArray(_step.value, 2),
+                                key = _step$value[0],
+                                item = _step$value[1];
+
+                            _this.$data[key] = item;
                         }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
                     } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
                         }
                     }
                 }
-
                 _setData.call(_this, data);
             };
             Object.defineProperty(this, "setData", {
@@ -7519,35 +7528,44 @@ function inject() {
             var _this = this;
 
             this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
+            Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
+                return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
+            }, function ($data) {
+                console.log("$data", $data);
+                _this.setData($data, false);
+            });
             var _setData = this.setData;
             var hookSetData = function hookSetData(data) {
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
+                var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-                try {
-                    for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var _step$value = _slicedToArray(_step.value, 2),
-                            key = _step$value[0],
-                            item = _step$value[1];
+                if (native) {
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
 
-                        _this.$data[key] = item;
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally {
                     try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
+                        for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var _step$value = _slicedToArray(_step.value, 2),
+                                key = _step$value[0],
+                                item = _step$value[1];
+
+                            _this.$data[key] = item;
                         }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
                     } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
                         }
                     }
                 }
-
                 _setData.call(_this, data);
             };
             Object.defineProperty(this, "setData", {
@@ -7615,7 +7633,7 @@ var autoRunFactory = function autoRunFactory() {
         autoRunList: [],
         reactiveState: function reactiveState(key, value) {
             console.log("---->", "component reactiveState", key);
-            this.setData(_defineProperty({}, key, Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(value) ? Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* toJS */])(value) : value));
+            this.setData(_defineProperty({}, key, Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(value) ? Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(value) : value));
         },
         setAutoRun: function setAutoRun() {
             var _this = this;

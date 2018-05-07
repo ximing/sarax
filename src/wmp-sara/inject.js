@@ -2,7 +2,7 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
-import { autorun, isObservable, toJS, observable, extendObservable } from "mobx";
+import { autorun, isObservable, toJS, observable, reaction } from "mobx";
 import observer from "./observer";
 
 export default function inject(options = {}, opt, ...args) {
@@ -22,10 +22,19 @@ export default function inject(options = {}, opt, ...args) {
             $store: app.$store,
             onLoad() {
                 this.$data = observable(this.data);
+                reaction(
+                    () => toJS(this.$data),
+                    $data => {
+                        console.log("$data", $data);
+                        this.setData($data, false);
+                    }
+                );
                 let _setData = this.setData;
-                let hookSetData = data => {
-                    for (let [key, item] of Object.entries(data)) {
-                        this.$data[key] = item;
+                let hookSetData = (data, native = true) => {
+                    if (native) {
+                        for (let [key, item] of Object.entries(data)) {
+                            this.$data[key] = item;
+                        }
                     }
                     _setData.call(this, data);
                 };
