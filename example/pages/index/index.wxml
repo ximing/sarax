@@ -4,9 +4,16 @@
     <button catch:tap="incrementCommit"> 自增 commit </button>
     <button catch:tap="incrementAction"> 自增 action </button>
     <button catch:tap="setName"> 换名称 </button>
+    <button catch:tap="changeMotto"> 换Data </button>
   </view>
   <user name="{{name}}"></user>
   <view class="usermotto">
-    <text class="user-motto">{{motto}}-{{s}}-{{all}}</text>
+    {{motto}}
+  </view>
+  <view>
+  {{s}}
+  </view>
+  <view>
+  {{all}}
   </view>
 </view>

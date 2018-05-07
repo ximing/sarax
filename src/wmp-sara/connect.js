@@ -4,7 +4,7 @@
 "use strict";
 
 import { autorun, isObservable, toJS, observable, extendObservable } from "mobx";
-import { activate } from "../util";
+import observer from "./observer";
 
 export default function connect(options = {}, opt, ...args) {
     const { attached, detached } = options;
@@ -17,69 +17,37 @@ export default function connect(options = {}, opt, ...args) {
         });
     }
     Object.defineProperty(options, "props", { value: null });
-    const autoRunFactory = (name = "", fn) => {
-        return autorun(fn, {
-            name: `${opt.componentName}/${name}`,
-            ...opt
-        });
-    };
-    const observerOptions = {
-        $store: app.$store,
-        autoRunList: [],
 
-        reactiveState(key, value) {
-            console.log("---->", "component reactiveState", key);
-            this.setData({ [key]: isObservable(value) ? toJS(value) : value });
-        },
+    const observerOptions = Object.assign(
+        {
+            $store: app.$store,
 
-        setAutoRun() {
-            Object.keys(this.props).forEach(propName => {
-                const prop = this.props[propName];
-                if (typeof prop === "function") {
-                    this.autoRunList.push(
-                        autoRunFactory(`${propName}/function`, () => {
-                            this.reactiveState(propName, prop.apply(this));
-                        })
-                    );
-                } else if (isObservable(prop)) {
-                    activate(prop);
-                    this.autoRunList.push(
-                        autoRunFactory(`${propName}/observable`, () => {
-                            this.reactiveState(propName, prop);
-                        })
-                    );
-                } else {
-                    for (let [key, value] of Object.entries(prop)) {
-                        activate(value);
-                        if (!isObservable(value)) {
-                            value = observable(value);
-                        }
-                        this.autoRunList.push(
-                            autoRunFactory(`${propName}/map`, () => {
-                                this.reactiveState(`${propName}.${key}`, value);
-                            })
-                        );
+            attached() {
+                this.$data = observable(this.data);
+                let _setData = this.setData;
+                let hookSetData = data => {
+                    for (let [key, item] of Object.entries(data)) {
+                        this.$data[key] = item;
                     }
-                }
-            });
-        },
+                    _setData.call(this, data);
+                };
+                Object.defineProperty(this, "setData", {
+                    get() {
+                        return hookSetData;
+                    }
+                });
+                Object.defineProperty(this, "props", propsDescriptor);
+                Object.defineProperty(this, "props", { value: this.props });
+                this.setAutoRun();
+                attached && attached.call(this, this.options);
+            },
 
-        clearAutoRun() {
-            this.autoRunList.forEach(func => func());
-            this.autoRunList = [];
+            detached() {
+                this.clearAutoRun();
+                detached && detached.call(this);
+            }
         },
-
-        attached() {
-            Object.defineProperty(this, "props", propsDescriptor);
-            Object.defineProperty(this, "props", { value: this.props });
-            this.setAutoRun();
-            attached && attached.call(this, this.options);
-        },
-
-        detached() {
-            this.clearAutoRun();
-            detached && detached.call(this);
-        }
-    };
+        observer(opt)
+    );
     return Object.assign(options, ...args, observerOptions);
 }

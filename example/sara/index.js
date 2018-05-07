@@ -7114,6 +7114,7 @@ var Store = (_temp = _class = function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return activate; });
+/* unused harmony export type */
 /**
  * Created by ximing on 2018/5/6.
  */
@@ -7158,6 +7159,9 @@ var activate = function activate(store) {
         }
     }
 };
+var type = function type(v) {
+    return Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+};
 
 /***/ }),
 
@@ -7167,17 +7171,13 @@ var activate = function activate(store) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = connect;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__("./src/util.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observer__ = __webpack_require__("./src/wmp-sara/observer.js");
 /**
  * Created by ximing on 2018/5/6.
  */
 
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -7202,83 +7202,50 @@ function connect() {
         }]));
     }
     Object.defineProperty(options, "props", { value: null });
-    var autoRunFactory = function autoRunFactory() {
-        var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-        var fn = arguments[1];
 
-        return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["b" /* autorun */])(fn, _extends({
-            name: opt.componentName + "/" + name
-        }, opt));
-    };
-    var observerOptions = {
+    var observerOptions = Object.assign({
         $store: app.$store,
-        autoRunList: [],
 
-        reactiveState: function reactiveState(key, value) {
-            console.log("---->", "component reactiveState", key);
-            this.setData(_defineProperty({}, key, Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(value) ? Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* toJS */])(value) : value));
-        },
-        setAutoRun: function setAutoRun() {
+        attached: function attached() {
             var _this = this;
 
-            Object.keys(this.props).forEach(function (propName) {
-                var prop = _this.props[propName];
-                if (typeof prop === "function") {
-                    _this.autoRunList.push(autoRunFactory(propName + "/function", function () {
-                        _this.reactiveState(propName, prop.apply(_this));
-                    }));
-                } else if (Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(prop)) {
-                    Object(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* activate */])(prop);
-                    _this.autoRunList.push(autoRunFactory(propName + "/observable", function () {
-                        _this.reactiveState(propName, prop);
-                    }));
-                } else {
-                    var _iteratorNormalCompletion = true;
-                    var _didIteratorError = false;
-                    var _iteratorError = undefined;
+            this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
+            var _setData = this.setData;
+            var hookSetData = function hookSetData(data) {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
 
+                try {
+                    for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var _step$value = _slicedToArray(_step.value, 2),
+                            key = _step$value[0],
+                            item = _step$value[1];
+
+                        _this.$data[key] = item;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
                     try {
-                        var _loop = function _loop() {
-                            var _step$value = _slicedToArray(_step.value, 2),
-                                key = _step$value[0],
-                                value = _step$value[1];
-
-                            Object(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* activate */])(value);
-                            if (!Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(value)) {
-                                value = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(value);
-                            }
-                            _this.autoRunList.push(autoRunFactory(propName + "/map", function () {
-                                _this.reactiveState(propName + "." + key, value);
-                            }));
-                        };
-
-                        for (var _iterator = Object.entries(prop)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            _loop();
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
                         }
-                    } catch (err) {
-                        _didIteratorError = true;
-                        _iteratorError = err;
                     } finally {
-                        try {
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
-                            }
-                        } finally {
-                            if (_didIteratorError) {
-                                throw _iteratorError;
-                            }
+                        if (_didIteratorError) {
+                            throw _iteratorError;
                         }
                     }
                 }
+
+                _setData.call(_this, data);
+            };
+            Object.defineProperty(this, "setData", {
+                get: function get() {
+                    return hookSetData;
+                }
             });
-        },
-        clearAutoRun: function clearAutoRun() {
-            this.autoRunList.forEach(function (func) {
-                return func();
-            });
-            this.autoRunList = [];
-        },
-        attached: function attached() {
             Object.defineProperty(this, "props", propsDescriptor);
             Object.defineProperty(this, "props", { value: this.props });
             this.setAutoRun();
@@ -7288,7 +7255,7 @@ function connect() {
             this.clearAutoRun();
             _detached && _detached.call(this);
         }
-    };
+    }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
     return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
 }
 
@@ -7512,17 +7479,13 @@ var createNamespacedHelpers = function createNamespacedHelpers(namespace) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = inject;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__("./src/util.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observer__ = __webpack_require__("./src/wmp-sara/observer.js");
 /**
  * Created by ximing on 2018/5/6.
  */
 
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -7549,20 +7512,109 @@ function inject() {
         }]));
     }
     Object.defineProperty(options, "props", { value: null });
-    var autoRunFactory = function autoRunFactory() {
-        var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-        var fn = arguments[1];
 
-        return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["b" /* autorun */])(fn, _extends({
-            name: opt.pageName + "/" + name
-        }, opt));
-    };
-    var observerOptions = {
+    var observerOptions = Object.assign({
         $store: app.$store,
-        autoRunList: [],
+        onLoad: function onLoad() {
+            var _this = this;
 
+            this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
+            var _setData = this.setData;
+            var hookSetData = function hookSetData(data) {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var _step$value = _slicedToArray(_step.value, 2),
+                            key = _step$value[0],
+                            item = _step$value[1];
+
+                        _this.$data[key] = item;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                _setData.call(_this, data);
+            };
+            Object.defineProperty(this, "setData", {
+                get: function get() {
+                    return hookSetData;
+                }
+            });
+            Object.defineProperty(this, "props", propsDescriptor);
+            Object.defineProperty(this, "props", { value: this.props });
+            this.setAutoRun();
+            _onLoad && _onLoad.call(this, this.options);
+        },
+
+
+        //性能提升，不可见就不反应
+        onShow: function onShow() {
+            this.autoRunList.length === 0 && this.setAutoRun();
+            _onShow && _onShow.call(this);
+        },
+        onUnload: function onUnload() {
+            this.clearAutoRun();
+            _onUnload && _onUnload.call(this);
+        },
+        onHide: function onHide() {
+            this.clearAutoRun();
+            _onHide && _onHide.call(this);
+        }
+    }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
+    return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
+}
+
+/***/ }),
+
+/***/ "./src/wmp-sara/observer.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.module.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__("./src/util.js");
+/**
+ * Created by ximing on 2018/5/7.
+ */
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var autoRunFactory = function autoRunFactory() {
+    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var fn = arguments[1];
+    var opt = arguments[2];
+
+    return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["b" /* autorun */])(fn, _extends({
+        name: opt.pageName + "/" + name
+    }, opt));
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (function (opt) {
+    return {
+        autoRunList: [],
         reactiveState: function reactiveState(key, value) {
-            console.log("---->", "page reactiveState", key);
+            console.log("---->", "component reactiveState", key);
             this.setData(_defineProperty({}, key, Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(value) ? Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* toJS */])(value) : value));
         },
         setAutoRun: function setAutoRun() {
@@ -7573,7 +7625,7 @@ function inject() {
                 if (typeof prop === "function") {
                     _this.autoRunList.push(autoRunFactory(propName + "/function", function () {
                         _this.reactiveState(propName, prop.apply(_this));
-                    }));
+                    }, opt));
                 } else if (Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(prop)) {
                     Object(__WEBPACK_IMPORTED_MODULE_1__util__["a" /* activate */])(prop);
                     _this.autoRunList.push(autoRunFactory(propName + "/observable", function () {
@@ -7624,31 +7676,9 @@ function inject() {
                 return func();
             });
             this.autoRunList = [];
-        },
-        onLoad: function onLoad() {
-            Object.defineProperty(this, "props", propsDescriptor);
-            Object.defineProperty(this, "props", { value: this.props });
-            this.setAutoRun();
-            _onLoad && _onLoad.call(this, this.options);
-        },
-
-
-        //性能提升，不可见就不反应
-        onShow: function onShow() {
-            this.autoRunList.length === 0 && this.setAutoRun();
-            _onShow && _onShow.call(this);
-        },
-        onUnload: function onUnload() {
-            this.clearAutoRun();
-            _onUnload && _onUnload.call(this);
-        },
-        onHide: function onHide() {
-            this.clearAutoRun();
-            _onHide && _onHide.call(this);
         }
     };
-    return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
-}
+});
 
 /***/ }),
 

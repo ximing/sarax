@@ -5,12 +5,12 @@ var { connect, inject, mapState, mapMutations, mapGetters } = require('../../sar
 
 Page(inject({
   data: {
-    motto: 'Hello World',
+    motto: 'Hello',
     userInfo: {}
   },
   props:{
     ...mapState({
-      s: state => state.count,
+      s: function (state) { return state.count+this.$data.motto},
       name: state => state.name
   }),
     ...mapGetters(['all'])
@@ -33,6 +33,15 @@ Page(inject({
   },
   setName: function(){
     app.$store.commit('setName')
+  },
+  changeMotto:function(){
+    this.setData({
+      motto:'nihao',
+      test:"sssaaa"
+    })
+    setTimeout(()=>{
+      console.log(this.data)
+    },2000)
   }
 })
 )
