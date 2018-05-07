@@ -1,8 +1,11 @@
 <!--index.wxml-->
 <view class="container">
   <view class="userinfo">
-    <button open-type="getUserInfo" catch:tap="getUserInfo"> 获取头像昵称 </button>
+    <button catch:tap="incrementCommit"> 自增 commit </button>
+    <button catch:tap="incrementAction"> 自增 action </button>
+    <button catch:tap="setName"> 换名称 </button>
   </view>
+  <user name="{{name}}"></user>
   <view class="usermotto">
     <text class="user-motto">{{motto}}-{{s}}-{{all}}</text>
   </view>

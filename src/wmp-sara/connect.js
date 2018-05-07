@@ -7,11 +7,16 @@ import { autorun, isObservable, toJS, observable, extendObservable } from "mobx"
 import { activate } from "../util";
 
 export default function connect(options = {}, opt, ...args) {
-    const { onLoad, onHide, onShow, onUnload } = options;
+    const { attached, detached } = options;
     opt = Object.assign({ componentName: "", delay: 0 }, opt);
     const propsDescriptor = Object.getOwnPropertyDescriptor(options, "props");
-    Object.defineProperty(options, "props", { value: null });
     const app = getApp();
+    if (!propsDescriptor) {
+        return Object.assign(options, ...args, {
+            $store: app.$store
+        });
+    }
+    Object.defineProperty(options, "props", { value: null });
     const autoRunFactory = (name = "", fn) => {
         return autorun(fn, {
             name: `${opt.componentName}/${name}`,
@@ -23,7 +28,7 @@ export default function connect(options = {}, opt, ...args) {
         autoRunList: [],
 
         reactiveState(key, value) {
-            console.log("---->", "reactiveState", key);
+            console.log("---->", "component reactiveState", key);
             this.setData({ [key]: isObservable(value) ? toJS(value) : value });
         },
 
@@ -64,27 +69,16 @@ export default function connect(options = {}, opt, ...args) {
             this.autoRunList = [];
         },
 
-        onLoad() {
+        attached() {
             Object.defineProperty(this, "props", propsDescriptor);
             Object.defineProperty(this, "props", { value: this.props });
             this.setAutoRun();
-            onLoad && onLoad.call(this, this.options);
+            attached && attached.call(this, this.options);
         },
 
-        //性能提升，不可见就不反应
-        onShow() {
-            this.autoRunList.length === 0 && this.setAutoRun();
-            onShow && onShow.call(this);
-        },
-
-        onUnload() {
+        detached() {
             this.clearAutoRun();
-            onUnload && onUnload.call(this);
-        },
-
-        onHide() {
-            this.clearAutoRun();
-            onHide && onHide.call(this);
+            detached && detached.call(this);
         }
     };
     return Object.assign(options, ...args, observerOptions);
