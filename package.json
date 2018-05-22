@@ -1,6 +1,6 @@
 {
     "name": "sarax",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "微信小程序状态管理",
     "author": "ximing",
     "main": "./dist/sarax.js",
@@ -24,6 +24,7 @@
     },
     "devDependencies": {
         "autoprefixer": "^7.1.4",
+        "ava": "^0.25.0",
         "babel-core": "^6.26.0",
         "babel-eslint": "^8.0.1",
         "babel-jest": "^21.2.0",

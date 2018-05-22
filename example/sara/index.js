@@ -6424,11 +6424,11 @@ if (false) {
 
 
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/node-libs-browser/node_modules/process/browser.js"), __webpack_require__("./node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/process/browser.js"), __webpack_require__("./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
-/***/ "./node_modules/node-libs-browser/node_modules/process/browser.js":
+/***/ "./node_modules/process/browser.js":
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -7161,63 +7161,61 @@ var Store = (_temp = _class = function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return activate; });
 /* unused harmony export type */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return splitNamespace; });
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 /**
  * Created by ximing on 2018/5/6.
  */
 
-
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var isObject = function isObject(obj) {
-    return obj === Object(obj);
+  return obj === Object(obj);
 };
 
 var activate = function activate(store) {
-    var descriptors = Object.getOwnPropertyDescriptors(store);
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+  var descriptors = Object.getOwnPropertyDescriptors(store);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
-    try {
-        for (var _iterator = Object.entries(descriptors)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var _step$value = _slicedToArray(_step.value, 2),
-                name = _step$value[0],
-                descriptor = _step$value[1];
+  try {
+    for (var _iterator = Object.entries(descriptors)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var _step$value = _slicedToArray(_step.value, 2),
+          name = _step$value[0],
+          descriptor = _step$value[1];
 
-            if (descriptor.get && !descriptor.enumerable) {
-                descriptor.enumerable = true;
-                Object.defineProperty(store, name, descriptor);
-            }
-        }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-            }
-        } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
-            }
-        }
+      if (descriptor.get && !descriptor.enumerable) {
+        descriptor.enumerable = true;
+        Object.defineProperty(store, name, descriptor);
+      }
     }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
 };
 var type = function type(v) {
-    return Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+  return Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
 };
 
 var splitNamespace = function splitNamespace() {
-    var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    var rootPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var rootPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-    var res = path.split("/");
-    return {
-        namespace: res.length === 1 ? rootPrefix ? "/" : "" : res.slice(0, res.length - 1).join("/"),
-        fnName: res.length === 1 ? path : res[res.length - 1]
-    };
+  var res = path.split('/');
+  return {
+    namespace: res.length === 1 ? rootPrefix ? '/' : '' : res.slice(0, res.length - 1).join('/'),
+    fnName: res.length === 1 ? path : res[res.length - 1]
+  };
 };
 
 /***/ }),
@@ -7229,102 +7227,101 @@ var splitNamespace = function splitNamespace() {
 /* harmony export (immutable) */ __webpack_exports__["a"] = connect;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.module.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observer__ = __webpack_require__("./src/wmp-sara/observer.js");
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 /**
  * Created by ximing on 2018/5/6.
  */
 
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-
 
 
 function connect() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var opt = arguments[1];
-    var _attached = options.attached,
-        _detached = options.detached;
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var opt = arguments[1];
+  var _attached = options.attached,
+      _detached = options.detached;
 
-    opt = Object.assign({ componentName: "", delay: 0 }, opt);
-    var propsDescriptor = Object.getOwnPropertyDescriptor(options, "props");
-    var app = getApp();
+  opt = Object.assign({ componentName: '', delay: 0 }, opt);
+  var propsDescriptor = Object.getOwnPropertyDescriptor(options, 'props');
+  var app = getApp();
 
-    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        args[_key - 2] = arguments[_key];
-    }
+  for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    args[_key - 2] = arguments[_key];
+  }
 
-    if (!propsDescriptor) {
-        return Object.assign.apply(Object, [options].concat(args, [{
-            $store: app.$store
-        }]));
-    }
-    Object.defineProperty(options, "props", { value: null });
+  if (!propsDescriptor) {
+    return Object.assign.apply(Object, [options].concat(args, [{
+      $store: app.$store
+    }]));
+  }
+  Object.defineProperty(options, 'props', { value: null });
 
-    var observerOptions = Object.assign({
-        $store: app.$store,
+  var observerOptions = Object.assign({
+    $store: app.$store,
 
-        attached: function attached() {
-            var _this = this;
+    attached: function attached() {
+      var _this = this;
 
-            this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
-            this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
-                return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
-            }, function ($data) {
-                _this.setData($data, false);
-            });
-            var _setData = this.setData;
-            var hookSetData = function hookSetData(data) {
-                var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
+      this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
+        return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
+      }, function ($data) {
+        _this.setData($data, false);
+      });
+      var _setData = this.setData;
+      var hookSetData = function hookSetData(data) {
+        var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-                if (native) {
-                    var _iteratorNormalCompletion = true;
-                    var _didIteratorError = false;
-                    var _iteratorError = undefined;
+        if (native) {
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
 
-                    try {
-                        for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            var _step$value = _slicedToArray(_step.value, 2),
-                                key = _step$value[0],
-                                item = _step$value[1];
+          try {
+            for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var _step$value = _slicedToArray(_step.value, 2),
+                  key = _step$value[0],
+                  item = _step$value[1];
 
-                            _this.$data[key] = item;
-                        }
-                    } catch (err) {
-                        _didIteratorError = true;
-                        _iteratorError = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
-                            }
-                        } finally {
-                            if (_didIteratorError) {
-                                throw _iteratorError;
-                            }
-                        }
-                    }
-                }
-                _setData.call(_this, data);
-            };
-            Object.defineProperty(this, "setData", {
-                get: function get() {
-                    return hookSetData;
-                }
-            });
-            Object.defineProperty(this, "props", propsDescriptor);
-            Object.defineProperty(this, "props", { value: this.props });
-            this.setAutoRun();
-            _attached && _attached.call(this, this.options);
-        },
-        detached: function detached() {
-            this.clearAutoRun();
-            if (this.$dataReaction) {
-                this.$dataReaction();
+              _this.$data[key] = item;
             }
-            _detached && _detached.call(this);
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
         }
-    }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
-    return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
+        _setData.call(_this, data);
+      };
+      Object.defineProperty(this, 'setData', {
+        get: function get() {
+          return hookSetData;
+        }
+      });
+      Object.defineProperty(this, 'props', propsDescriptor);
+      Object.defineProperty(this, 'props', { value: this.props });
+      this.setAutoRun();
+      _attached && _attached.call(this, this.options);
+    },
+    detached: function detached() {
+      this.clearAutoRun();
+      if (this.$dataReaction) {
+        this.$dataReaction();
+      }
+      _detached && _detached.call(this);
+    }
+  }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
+  return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
 }
 
 /***/ }),
@@ -7342,7 +7339,6 @@ function connect() {
 /**
  * Created by ximing on 2018/5/6.
  */
-
 
 
 /**
@@ -7559,111 +7555,110 @@ var createNamespacedHelpers = function createNamespacedHelpers(namespace) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = inject;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.module.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observer__ = __webpack_require__("./src/wmp-sara/observer.js");
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 /**
  * Created by ximing on 2018/5/6.
  */
 
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-
 
 
 function inject() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var opt = arguments[1];
-    var _onLoad = options.onLoad,
-        _onHide = options.onHide,
-        _onShow = options.onShow,
-        _onUnload = options.onUnload;
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var opt = arguments[1];
+  var _onLoad = options.onLoad,
+      _onHide = options.onHide,
+      _onShow = options.onShow,
+      _onUnload = options.onUnload;
 
-    opt = Object.assign({ pageName: "", delay: 0 }, opt);
-    var propsDescriptor = Object.getOwnPropertyDescriptor(options, "props");
-    var app = getApp();
+  opt = Object.assign({ pageName: '', delay: 0 }, opt);
+  var propsDescriptor = Object.getOwnPropertyDescriptor(options, 'props');
+  var app = getApp();
 
-    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        args[_key - 2] = arguments[_key];
-    }
+  for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    args[_key - 2] = arguments[_key];
+  }
 
-    if (!propsDescriptor) {
-        return Object.assign.apply(Object, [options].concat(args, [{
-            $store: app.$store
-        }]));
-    }
-    Object.defineProperty(options, "props", { value: null });
+  if (!propsDescriptor) {
+    return Object.assign.apply(Object, [options].concat(args, [{
+      $store: app.$store
+    }]));
+  }
+  Object.defineProperty(options, 'props', { value: null });
 
-    var observerOptions = Object.assign({
-        $store: app.$store,
-        onLoad: function onLoad() {
-            var _this = this;
+  var observerOptions = Object.assign({
+    $store: app.$store,
+    onLoad: function onLoad() {
+      var _this = this;
 
-            this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
-            this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
-                return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
-            }, function ($data) {
-                _this.setData($data, false);
-            });
-            var _setData = this.setData;
-            var hookSetData = function hookSetData(data) {
-                var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
+      this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
+        return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
+      }, function ($data) {
+        _this.setData($data, false);
+      });
+      var _setData = this.setData;
+      var hookSetData = function hookSetData(data) {
+        var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-                if (native) {
-                    var _iteratorNormalCompletion = true;
-                    var _didIteratorError = false;
-                    var _iteratorError = undefined;
+        if (native) {
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
 
-                    try {
-                        for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            var _step$value = _slicedToArray(_step.value, 2),
-                                key = _step$value[0],
-                                item = _step$value[1];
+          try {
+            for (var _iterator = Object.entries(data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var _step$value = _slicedToArray(_step.value, 2),
+                  key = _step$value[0],
+                  item = _step$value[1];
 
-                            _this.$data[key] = item;
-                        }
-                    } catch (err) {
-                        _didIteratorError = true;
-                        _iteratorError = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
-                            }
-                        } finally {
-                            if (_didIteratorError) {
-                                throw _iteratorError;
-                            }
-                        }
-                    }
-                }
-                _setData.call(_this, data);
-            };
-            Object.defineProperty(this, "setData", {
-                get: function get() {
-                    return hookSetData;
-                }
-            });
-            Object.defineProperty(this, "props", propsDescriptor);
-            Object.defineProperty(this, "props", { value: this.props });
-            this.setAutoRun();
-            _onLoad && _onLoad.call(this, this.options);
-        },
-
-
-        //性能提升，不可见就不反应
-        onShow: function onShow() {
-            this.autoRunList.length === 0 && this.setAutoRun();
-            _onShow && _onShow.call(this);
-        },
-        onUnload: function onUnload() {
-            this.clearAutoRun();
-            _onUnload && _onUnload.call(this);
-        },
-        onHide: function onHide() {
-            this.clearAutoRun();
-            _onHide && _onHide.call(this);
+              _this.$data[key] = item;
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
         }
-    }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
-    return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
+        _setData.call(_this, data);
+      };
+      Object.defineProperty(this, 'setData', {
+        get: function get() {
+          return hookSetData;
+        }
+      });
+      Object.defineProperty(this, 'props', propsDescriptor);
+      Object.defineProperty(this, 'props', { value: this.props });
+      this.setAutoRun();
+      _onLoad && _onLoad.call(this, this.options);
+    },
+
+
+    // 性能提升，不可见就不反应
+    onShow: function onShow() {
+      this.autoRunList.length === 0 && this.setAutoRun();
+      _onShow && _onShow.call(this);
+    },
+    onUnload: function onUnload() {
+      this.clearAutoRun();
+      _onUnload && _onUnload.call(this);
+    },
+    onHide: function onHide() {
+      this.clearAutoRun();
+      _onHide && _onHide.call(this);
+    }
+  }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
+  return Object.assign.apply(Object, [options].concat(args, [observerOptions]));
 }
 
 /***/ }),
@@ -7674,16 +7669,16 @@ function inject() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.module.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__("./src/util.js");
-/**
- * Created by ximing on 2018/5/7.
- */
-
-
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/**
+ * Created by ximing on 2018/5/7.
+ */
+
 
 
 
@@ -7691,7 +7686,6 @@ var autoRunFactory = function autoRunFactory() {
     var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     var fn = arguments[1];
     var opt = arguments[2];
-
     return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["b" /* autorun */])(fn, _extends({
         name: opt.pageName + "/" + name
     }, opt));
