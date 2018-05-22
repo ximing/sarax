@@ -1,15 +1,15 @@
 /**
  * Created by ximing on 2018/5/7.
  */
-"use strict";
-import { autorun, isObservable, toJS, observable, observe } from "mobx";
+
+import { autorun, isObservable, toJS, observable } from "mobx";
 import { activate } from "../util";
-const autoRunFactory = (name = "", fn, opt) => {
-    return autorun(fn, {
+
+const autoRunFactory = (name = "", fn, opt) =>
+    autorun(fn, {
         name: `${opt.pageName}/${name}`,
         ...opt
     });
-};
 
 export default function(opt) {
     return {

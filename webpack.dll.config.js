@@ -27,7 +27,7 @@ module.exports = {
                         'presets': [
                             ['es2015', {
                                 'modules': false
-                            }], 'stage-0', 'react'
+                            }], 'stage-0'
                         ],
                         'env': {},
                         'ignore': [
@@ -35,7 +35,6 @@ module.exports = {
                             'dist'
                         ],
                         'plugins': [
-                            'react-hot-loader/babel',
                             'transform-decorators-legacy'
                         ]
                     }

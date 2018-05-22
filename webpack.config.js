@@ -10,7 +10,6 @@ var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 module.exports = {
     entry: {
         'demo': [
-            'react-hot-loader/patch',
             './example/index.js'
         ]
     },
@@ -50,15 +49,13 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                use:[{
-                    loader:'react-hot-loader/webpack'
-                },                    {
+                use:[               {
                     loader: 'babel-loader',
                     options: {
                         'presets': [
                             ['es2015', {
                                 'modules': false
-                            }], 'stage-0', 'react'
+                            }], 'stage-0'
                         ],
                         'env': {},
                         'ignore': [
@@ -66,7 +63,6 @@ module.exports = {
                             'dist'
                         ],
                         'plugins': [
-                            'react-hot-loader/babel',
                             'transform-decorators-legacy'
                         ]
                     }

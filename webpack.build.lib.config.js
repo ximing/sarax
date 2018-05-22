@@ -8,7 +8,7 @@ var node_modules = resolve(__dirname, "node_modules");
 
 module.exports = {
     entry: {
-        sara: ["./src/index.js"]
+        sarax: ["./src/index.js"]
     },
     output: {
         filename: "[name].js",
@@ -38,8 +38,7 @@ module.exports = {
                                         modules: false
                                     }
                                 ],
-                                "stage-0",
-                                "react"
+                                "stage-0"
                             ],
                             env: {},
                             // ignore: ["node_modules/**", "dist"],

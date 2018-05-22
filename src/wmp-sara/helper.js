@@ -1,7 +1,7 @@
 /**
  * Created by ximing on 2018/5/6.
  */
-"use strict";
+
 import { splitNamespace } from "../util";
 /**
  * Reduce the code which written in Vue.js for getting the state.
@@ -74,7 +74,7 @@ export const mapGetters = normalizeNamespace((namespace, getters) => {
             let functionName = val,
                 _namespace = namespace;
             if (!namespace) {
-                let { namespace: ns, fnName } = splitNamespace(val, false);
+                const { namespace: ns, fnName } = splitNamespace(val, false);
                 _namespace = ns;
                 functionName = fnName;
             }

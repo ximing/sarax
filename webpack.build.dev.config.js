@@ -38,8 +38,7 @@ module.exports = {
                                         modules: false
                                     }
                                 ],
-                                "stage-0",
-                                "react"
+                                "stage-0"
                             ],
                             env: {},
                             // ignore: ["node_modules/**", "dist"],
