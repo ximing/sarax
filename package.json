@@ -1,6 +1,6 @@
 {
     "name": "sarax",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "微信小程序状态管理",
     "author": "ximing",
     "main": "./dist/sara.js",
