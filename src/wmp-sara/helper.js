@@ -2,6 +2,7 @@
  * Created by ximing on 2018/5/6.
  */
 "use strict";
+import { splitNamespace } from "../util";
 /**
  * Reduce the code which written in Vue.js for getting the state.
  * @param {String} [namespace] - Module's namespace
@@ -69,25 +70,27 @@ export const mapGetters = normalizeNamespace((namespace, getters) => {
     const res = {};
     const app = getApp();
     normalizeMap(getters).forEach(({ key, val }) => {
-        // thie namespace has been mutate by normalizeNamespace
-        val = namespace + val;
         res[key] = function mappedGetter() {
-            // if (namespace && !getModuleByNamespace(app.$store, "mapGetters", namespace)) {
-            //     return;
-            // }
-            if (namespace) {
-                const module = getModuleByNamespace(app.$store, "mapGetters", namespace);
-                if (!module || !(val in module.getters)) {
-                    console.error(`[sarax] unknown getter: ${namespace} ${val}`);
+            let functionName = val,
+                _namespace = namespace;
+            if (!namespace) {
+                let { namespace: ns, fnName } = splitNamespace(val, false);
+                _namespace = ns;
+                functionName = fnName;
+            }
+            if (_namespace) {
+                const module = getModuleByNamespace(app.$store, "mapGetters", _namespace);
+                if (!module || !(functionName in module.getters)) {
+                    console.error(`[sarax] unknown getter: ${_namespace} ${functionName}`);
                     return;
                 }
-                return module.getters[val];
+                return module.getters[functionName];
             }
-            if (!(val in app.$store.getters)) {
+            if (!(functionName in app.$store.getters)) {
                 console.error(`[sarax] unknown getter: ${val}`);
                 return;
             }
-            return app.$store.getters[val];
+            return app.$store.getters[functionName];
         };
     });
     return res;

@@ -17,7 +17,12 @@ Page(
                 name: state => state.name,
                 aCount: state => state.a.count
             }),
-            ...mapGetters(["all"])
+            ...mapState("a", {
+                sabc: function(state) {
+                    return state.count + 1;
+                }
+            }),
+            ...mapGetters(["all", "a/doubleCount"])
         },
         //事件处理函数
         bindViewTap: function() {
@@ -48,7 +53,7 @@ Page(
             }, 1000);
         },
         ...mapMutations("a", {
-            s: "increment"
+            si: "increment"
         }),
         moduleACount: function() {
             this.$store.commit("a/increment");

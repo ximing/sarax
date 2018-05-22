@@ -7187,10 +7187,11 @@ var type = function type(v) {
 
 var splitNamespace = function splitNamespace() {
     var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var rootPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
     var res = path.split("/");
     return {
-        namespace: res.length === 1 ? "/" : res.slice(0, res.length - 1).join("/"),
+        namespace: res.length === 1 ? rootPrefix ? "/" : "" : res.slice(0, res.length - 1).join("/"),
         fnName: res.length === 1 ? path : res[res.length - 1]
     };
 };
@@ -7313,9 +7314,12 @@ function connect() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapGetters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapActions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createNamespacedHelpers; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__("./src/util.js");
 /**
  * Created by ximing on 2018/5/6.
  */
+
+
 
 /**
  * Reduce the code which written in Vue.js for getting the state.
@@ -7323,7 +7327,6 @@ function connect() {
  * @param {Object|Array} states # Object's item can be a function which accept state and getters for param, you can do something for state and getters in it.
  * @param {Object}
  */
-
 var mapState = normalizeNamespace(function (namespace, states) {
     var res = {};
     var app = getApp();
@@ -7397,25 +7400,30 @@ var mapGetters = normalizeNamespace(function (namespace, getters) {
         var key = _ref3.key,
             val = _ref3.val;
 
-        // thie namespace has been mutate by normalizeNamespace
-        val = namespace + val;
         res[key] = function mappedGetter() {
-            // if (namespace && !getModuleByNamespace(app.$store, "mapGetters", namespace)) {
-            //     return;
-            // }
-            if (namespace) {
-                var module = getModuleByNamespace(app.$store, "mapGetters", namespace);
-                if (!module || !(val in module.getters)) {
-                    console.error("[sarax] unknown getter: " + namespace + " " + val);
+            var functionName = val,
+                _namespace = namespace;
+            if (!namespace) {
+                var _splitNamespace = Object(__WEBPACK_IMPORTED_MODULE_0__util__["c" /* splitNamespace */])(val, false),
+                    ns = _splitNamespace.namespace,
+                    fnName = _splitNamespace.fnName;
+
+                _namespace = ns;
+                functionName = fnName;
+            }
+            if (_namespace) {
+                var module = getModuleByNamespace(app.$store, "mapGetters", _namespace);
+                if (!module || !(functionName in module.getters)) {
+                    console.error("[sarax] unknown getter: " + _namespace + " " + functionName);
                     return;
                 }
-                return module.getters[val];
+                return module.getters[functionName];
             }
-            if (!(val in app.$store.getters)) {
+            if (!(functionName in app.$store.getters)) {
                 console.error("[sarax] unknown getter: " + val);
                 return;
             }
-            return app.$store.getters[val];
+            return app.$store.getters[functionName];
         };
     });
     return res;
