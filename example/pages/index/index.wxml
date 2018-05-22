@@ -14,6 +14,9 @@
   {{s}}
   </view>
   <view>
-  {{all}}
+    {{all}}
+  </view>
+  <view catch:tap="moduleACount">
+    {{aCount}}
   </view>
 </view>

@@ -4,12 +4,13 @@
 "use strict";
 import invariant from "invariant";
 import Module from "./module";
+import { splitNamespace } from "./util";
 
 export default class Store {
     constructor({ modules = Object.create(null), ...module } = {}) {
         this._modulesNamespaceMap = Object.create(null);
-        this.registerModules("", modules);
         this.registerModule("/", module);
+        this.registerModules("", modules);
     }
     get rootModule() {
         return this._modulesNamespaceMap["/"];
@@ -48,11 +49,21 @@ export default class Store {
     };
 
     dispatch = (type, payload = {}, options = { root: false }) => {
-        return this.rootModule.dispatch(type, payload, options);
+        const { namespace, fnName } = splitNamespace(type);
+        if (this._modulesNamespaceMap[namespace]) {
+            return this._modulesNamespaceMap[namespace].dispatch(type, payload, options);
+        } else {
+            console.error(`module ${namespace} not found`);
+        }
     };
 
     commit = (type, payload, options = { root: false }) => {
-        return this.rootModule.commit(type, payload, options);
+        const { namespace, fnName } = splitNamespace(type);
+        if (this._modulesNamespaceMap[namespace]) {
+            return this._modulesNamespaceMap[namespace].commit(type, payload, options);
+        } else {
+            console.error(`module ${namespace} not found`);
+        }
     };
 
     watch = () => {};

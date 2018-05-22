@@ -24,10 +24,9 @@ export default function connect(options = {}, opt, ...args) {
 
             attached() {
                 this.$data = observable(this.data);
-                reaction(
+                this.$dataReaction = reaction(
                     () => toJS(this.$data),
                     $data => {
-                        console.log("$data", $data);
                         this.setData($data, false);
                     }
                 );
@@ -53,6 +52,9 @@ export default function connect(options = {}, opt, ...args) {
 
             detached() {
                 this.clearAutoRun();
+                if (this.$dataReaction) {
+                    this.$dataReaction();
+                }
                 detached && detached.call(this);
             }
         },

@@ -22,3 +22,11 @@ export const type = function(v) {
         .slice(8, -1)
         .toLowerCase();
 };
+
+export const splitNamespace = function(path = "") {
+    let res = path.split("/");
+    return {
+        namespace: res.length === 1 ? "/" : res.slice(0, res.length - 1).join("/"),
+        fnName: res.length === 1 ? path : res[res.length - 1]
+    };
+};

@@ -6,7 +6,7 @@ import cloneDeep from "lodash.clonedeep";
 import trim from "lodash.trim";
 import { isObject } from "./util";
 import invariant from "invariant";
-import { action, observable, extendObservable, computed } from "mobx";
+import { action, extendObservable } from "mobx";
 
 export default class Module {
     get state() {
@@ -16,14 +16,14 @@ export default class Module {
     get getters() {
         return this;
     }
-    constructor(namespace, module, runtime) {
+    constructor(namespace, module = {}, runtime) {
         let { state, actions, mutations, getters, modules, namespaced } = cloneDeep({
             actions: {},
             state: {},
             getters: {},
             mutations: {},
             namespaced: false,
-            modules: {},
+            modules: null,
             ...module
         });
         invariant(isObject(actions), "actions should be object");

@@ -6758,8 +6758,11 @@ var Module = (_temp = _class = function () {
         }
     }]);
 
-    function Module(namespace, module, runtime) {
+    function Module(namespace) {
         var _this = this;
+
+        var module = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var runtime = arguments[2];
 
         _classCallCheck(this, Module);
 
@@ -6771,7 +6774,7 @@ var Module = (_temp = _class = function () {
             getters: {},
             mutations: {},
             namespaced: false,
-            modules: {}
+            modules: null
         }, module)),
             state = _cloneDeep.state,
             actions = _cloneDeep.actions,
@@ -6974,6 +6977,7 @@ var Module = (_temp = _class = function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__("./node_modules/invariant/browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__module__ = __webpack_require__("./src/module.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util__ = __webpack_require__("./src/util.js");
 /**
  * Created by ximing on 2018/5/6.
  */
@@ -6992,6 +6996,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
+
 var Store = (_temp = _class = function () {
     function Store() {
         var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -7005,8 +7010,8 @@ var Store = (_temp = _class = function () {
         _initialiseProps.call(this);
 
         this._modulesNamespaceMap = Object.create(null);
-        this.registerModules("", modules);
         this.registerModule("/", module);
+        this.registerModules("", modules);
     }
 
     _createClass(Store, [{
@@ -7089,13 +7094,29 @@ var Store = (_temp = _class = function () {
         var payload = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { root: false };
 
-        return _this.rootModule.dispatch(type, payload, options);
+        var _splitNamespace = Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* splitNamespace */])(type),
+            namespace = _splitNamespace.namespace,
+            fnName = _splitNamespace.fnName;
+
+        if (_this._modulesNamespaceMap[namespace]) {
+            return _this._modulesNamespaceMap[namespace].dispatch(type, payload, options);
+        } else {
+            console.error("module " + namespace + " not found");
+        }
     };
 
     this.commit = function (type, payload) {
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { root: false };
 
-        return _this.rootModule.commit(type, payload, options);
+        var _splitNamespace2 = Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* splitNamespace */])(type),
+            namespace = _splitNamespace2.namespace,
+            fnName = _splitNamespace2.fnName;
+
+        if (_this._modulesNamespaceMap[namespace]) {
+            return _this._modulesNamespaceMap[namespace].commit(type, payload, options);
+        } else {
+            console.error("module " + namespace + " not found");
+        }
     };
 
     this.watch = function () {};
@@ -7115,6 +7136,7 @@ var Store = (_temp = _class = function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return activate; });
 /* unused harmony export type */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return splitNamespace; });
 /**
  * Created by ximing on 2018/5/6.
  */
@@ -7161,6 +7183,16 @@ var activate = function activate(store) {
 };
 var type = function type(v) {
     return Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+};
+
+var splitNamespace = function splitNamespace() {
+    var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+
+    var res = path.split("/");
+    return {
+        namespace: res.length === 1 ? "/" : res.slice(0, res.length - 1).join("/"),
+        fnName: res.length === 1 ? path : res[res.length - 1]
+    };
 };
 
 /***/ }),
@@ -7210,10 +7242,9 @@ function connect() {
             var _this = this;
 
             this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
-            Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
+            this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
                 return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
             }, function ($data) {
-                console.log("$data", $data);
                 _this.setData($data, false);
             });
             var _setData = this.setData;
@@ -7262,6 +7293,9 @@ function connect() {
         },
         detached: function detached() {
             this.clearAutoRun();
+            if (this.$dataReaction) {
+                this.$dataReaction();
+            }
             _detached && _detached.call(this);
         }
     }, Object(__WEBPACK_IMPORTED_MODULE_1__observer__["a" /* default */])(opt));
@@ -7528,12 +7562,13 @@ function inject() {
             var _this = this;
 
             this.$data = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["e" /* observable */])(this.data);
-            Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
+            this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
                 return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
             }, function ($data) {
                 console.log("$data", $data);
                 _this.setData($data, false);
             });
+            console.log("this.$dataReaction", this.$dataReaction);
             var _setData = this.setData;
             var hookSetData = function hookSetData(data) {
                 var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
