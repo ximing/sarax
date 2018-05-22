@@ -4,7 +4,7 @@
 "use strict";
 import invariant from "invariant";
 import Module from "./module";
-import { splitNamespace } from "./util";
+import { splitNamespace, isObject } from "./util";
 
 export default class Store {
     constructor({ modules = Object.create(null), ...module } = {}) {
@@ -49,7 +49,11 @@ export default class Store {
     };
 
     dispatch = (type, payload = {}, options = { root: false }) => {
-        const { namespace, fnName } = splitNamespace(type);
+        let _type = type;
+        if (isObject(_type)) {
+            _type = _type.type;
+        }
+        let { namespace } = splitNamespace(_type);
         if (this._modulesNamespaceMap[namespace]) {
             return this._modulesNamespaceMap[namespace].dispatch(type, payload, options);
         } else {
@@ -58,7 +62,11 @@ export default class Store {
     };
 
     commit = (type, payload, options = { root: false }) => {
-        const { namespace, fnName } = splitNamespace(type);
+        let _type = type;
+        if (isObject(_type)) {
+            _type = _type.type;
+        }
+        let { namespace } = splitNamespace(_type);
         if (this._modulesNamespaceMap[namespace]) {
             return this._modulesNamespaceMap[namespace].commit(type, payload, options);
         } else {

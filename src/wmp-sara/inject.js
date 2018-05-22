@@ -25,11 +25,9 @@ export default function inject(options = {}, opt, ...args) {
                 this.$dataReaction = reaction(
                     () => toJS(this.$data),
                     $data => {
-                        console.log("$data", $data);
                         this.setData($data, false);
                     }
                 );
-                console.log("this.$dataReaction", this.$dataReaction);
                 let _setData = this.setData;
                 let hookSetData = (data, native = true) => {
                     if (native) {

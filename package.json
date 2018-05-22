@@ -14,8 +14,8 @@
         "buildlib": "rimraf dist && mkdir dist && rsync -va -progress  ./src/* ./dist && babel --presets=es2015,stage-0,react  --plugins=transform-decorators-legacy src --out-dir dist --ignore libs",
         "builddev": "rimraf ./example/sara && mkdir ./example/sara &&webpack --config webpack.build.dev.config.js --watch",
         "builddev1": "rimraf ./example/sara && mkdir ./example/sara && rsync -va -progress  ./src/* ./example/sara && babel --presets=es2015,stage-0  --plugins=transform-decorators-legacy src --ignore libs --out-dir ./example/sara --watch",
-        "test": "./node_modules/.bin/jest",
-        "test-watch": "./node_modules/.bin/jest --watch"
+        "test-watch": "export NODE_ENV=test && ava --watch",
+        "test": "export NODE_ENV=test && nyc ava"
     },
     "keywords": [],
     "license": "ISC",
@@ -92,5 +92,30 @@
         "lodash.clonedeep": "^4.5.0",
         "lodash.trim": "^4.5.1",
         "mobx": "^4.2.1"
+    },
+    "ava": {
+        "files": [
+            "test/*.js",
+            "!test/help.js"
+        ],
+        "source": [
+            "src/**/*.{js,jsx}",
+            "test/*.js",
+            "!dist/**/*",
+            "!node_modules/**/*"
+        ],
+        "match": [
+            "*",
+            "!foo"
+        ],
+        "concurrency": 5,
+        "failFast": true,
+        "failWithoutAssertions": false,
+        "tap": true,
+        "powerAssert": false,
+        "require": [
+            "babel-register"
+        ],
+        "babel": "inherit"
     }
 }

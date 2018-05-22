@@ -6951,14 +6951,30 @@ var Module = (_temp = _class = function () {
             state: _this2.state,
             rootState: _this2.runtime.state,
             commit: function commit() {
-                var _runtime;
+                for (var _len = arguments.length, args = Array(_len), _key4 = 0; _key4 < _len; _key4++) {
+                    args[_key4] = arguments[_key4];
+                }
 
-                return (_runtime = _this2.runtime).commit.apply(_runtime, arguments);
+                if (args[args.length - 1] && Object(__WEBPACK_IMPORTED_MODULE_2__util__["b" /* isObject */])(args[args.length - 1]) && args[args.length - 1].root) {
+                    var _runtime;
+
+                    return (_runtime = _this2.runtime).commit.apply(_runtime, args.concat([options]));
+                } else {
+                    return _this2.commit.apply(_this2, args.concat([options]));
+                }
             },
             dispatch: function dispatch() {
-                var _runtime2;
+                for (var _len2 = arguments.length, args = Array(_len2), _key5 = 0; _key5 < _len2; _key5++) {
+                    args[_key5] = arguments[_key5];
+                }
 
-                return (_runtime2 = _this2.runtime).dispatch.apply(_runtime2, arguments);
+                if (args[args.length - 1] && Object(__WEBPACK_IMPORTED_MODULE_2__util__["b" /* isObject */])(args[args.length - 1]) && args[args.length - 1].root) {
+                    var _runtime2;
+
+                    return (_runtime2 = _this2.runtime).dispatch.apply(_runtime2, args.concat([options]));
+                } else {
+                    return _this2.dispatch.apply(_this2, args.concat([options]));
+                }
             },
             getters: _this2.getters,
             rootGetters: _this2.runtime.rootGetters
@@ -7094,9 +7110,13 @@ var Store = (_temp = _class = function () {
         var payload = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { root: false };
 
-        var _splitNamespace = Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* splitNamespace */])(type),
-            namespace = _splitNamespace.namespace,
-            fnName = _splitNamespace.fnName;
+        var _type = type;
+        if (Object(__WEBPACK_IMPORTED_MODULE_2__util__["b" /* isObject */])(_type)) {
+            _type = _type.type;
+        }
+
+        var _splitNamespace = Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* splitNamespace */])(_type),
+            namespace = _splitNamespace.namespace;
 
         if (_this._modulesNamespaceMap[namespace]) {
             return _this._modulesNamespaceMap[namespace].dispatch(type, payload, options);
@@ -7108,9 +7128,13 @@ var Store = (_temp = _class = function () {
     this.commit = function (type, payload) {
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { root: false };
 
-        var _splitNamespace2 = Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* splitNamespace */])(type),
-            namespace = _splitNamespace2.namespace,
-            fnName = _splitNamespace2.fnName;
+        var _type = type;
+        if (Object(__WEBPACK_IMPORTED_MODULE_2__util__["b" /* isObject */])(_type)) {
+            _type = _type.type;
+        }
+
+        var _splitNamespace2 = Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* splitNamespace */])(_type),
+            namespace = _splitNamespace2.namespace;
 
         if (_this._modulesNamespaceMap[namespace]) {
             return _this._modulesNamespaceMap[namespace].commit(type, payload, options);
@@ -7577,10 +7601,8 @@ function inject() {
             this.$dataReaction = Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["f" /* reaction */])(function () {
                 return Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(_this.$data);
             }, function ($data) {
-                console.log("$data", $data);
                 _this.setData($data, false);
             });
-            console.log("this.$dataReaction", this.$dataReaction);
             var _setData = this.setData;
             var hookSetData = function hookSetData(data) {
                 var native = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -7679,7 +7701,7 @@ var autoRunFactory = function autoRunFactory() {
     return {
         autoRunList: [],
         reactiveState: function reactiveState(key, value) {
-            console.log("---->", "component reactiveState", key);
+            // console.log("---->", "component reactiveState", key);
             this.setData(_defineProperty({}, key, Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["d" /* isObservable */])(value) ? Object(__WEBPACK_IMPORTED_MODULE_0_mobx__["g" /* toJS */])(value) : value));
         },
         setAutoRun: function setAutoRun() {

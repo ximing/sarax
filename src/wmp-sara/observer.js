@@ -15,7 +15,7 @@ export default function(opt) {
     return {
         autoRunList: [],
         reactiveState(key, value) {
-            console.log("---->", "component reactiveState", key);
+            // console.log("---->", "component reactiveState", key);
             this.setData({ [key]: isObservable(value) ? toJS(value) : value });
         },
         setAutoRun() {

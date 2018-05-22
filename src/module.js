@@ -108,10 +108,26 @@ export default class Module {
                     state: this.state,
                     rootState: this.runtime.state,
                     commit: (...args) => {
-                        return this.runtime.commit(...args);
+                        if (
+                            args[args.length - 1] &&
+                            isObject(args[args.length - 1]) &&
+                            args[args.length - 1].root
+                        ) {
+                            return this.runtime.commit(...args, options);
+                        } else {
+                            return this.commit(...args, options);
+                        }
                     },
                     dispatch: (...args) => {
-                        return this.runtime.dispatch(...args);
+                        if (
+                            args[args.length - 1] &&
+                            isObject(args[args.length - 1]) &&
+                            args[args.length - 1].root
+                        ) {
+                            return this.runtime.dispatch(...args, options);
+                        } else {
+                            return this.dispatch(...args, options);
+                        }
                     },
                     getters: this.getters,
                     rootGetters: this.runtime.rootGetters
