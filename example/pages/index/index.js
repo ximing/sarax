@@ -47,8 +47,11 @@ Page(
                 this.$data.motto = "12345";
             }, 1000);
         },
+        ...mapMutations("a", {
+            s: "increment"
+        }),
         moduleACount: function() {
-            app.$store.commit("a/increment");
+            this.$store.commit("a/increment");
         }
     })
 );

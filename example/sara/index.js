@@ -7364,19 +7364,21 @@ var mapMutations = normalizeNamespace(function (namespace, mutations) {
         res[key] = function mappedMutation() {
             // Get the commit method from store
             var commit = app.$store.commit;
+            var nameSpaceFnName = val;
             if (namespace) {
                 var module = getModuleByNamespace(app.$store, "mapMutations", namespace);
                 if (!module) {
                     return;
                 }
                 commit = module.commit;
+                nameSpaceFnName = namespace + "/" + val;
             }
 
             for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                 args[_key] = arguments[_key];
             }
 
-            return typeof val === "function" ? val.apply(this, [commit].concat(args)) : commit.apply(app.$store, [val].concat(args));
+            return typeof val === "function" ? val.apply(this, [commit].concat(args)) : commit.apply(app.$store, [nameSpaceFnName].concat(args));
         };
     });
     return res;
@@ -7435,19 +7437,21 @@ var mapActions = normalizeNamespace(function (namespace, actions) {
         res[key] = function mappedAction() {
             // get dispatch function from store
             var dispatch = app.$store.dispatch;
+            var nameSpaceFnName = val;
             if (namespace) {
                 var module = getModuleByNamespace(app.$store, "mapActions", namespace);
                 if (!module) {
                     return;
                 }
-                dispatch = module.context.dispatch;
+                dispatch = module.dispatch;
+                nameSpaceFnName = namespace + "/" + val;
             }
 
             for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                 args[_key2] = arguments[_key2];
             }
 
-            return typeof val === "function" ? val.apply(this, [dispatch].concat(args)) : dispatch.apply(app.$store, [val].concat(args));
+            return typeof val === "function" ? val.apply(this, [dispatch].concat(args)) : dispatch.apply(app.$store, [nameSpaceFnName].concat(args));
         };
     });
     return res;

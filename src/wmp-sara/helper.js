@@ -42,16 +42,18 @@ export const mapMutations = normalizeNamespace((namespace, mutations) => {
         res[key] = function mappedMutation(...args) {
             // Get the commit method from store
             let commit = app.$store.commit;
+            let nameSpaceFnName = val;
             if (namespace) {
                 const module = getModuleByNamespace(app.$store, "mapMutations", namespace);
                 if (!module) {
                     return;
                 }
                 commit = module.commit;
+                nameSpaceFnName = `${namespace}/${val}`;
             }
             return typeof val === "function"
                 ? val.apply(this, [commit].concat(args))
-                : commit.apply(app.$store, [val].concat(args));
+                : commit.apply(app.$store, [nameSpaceFnName].concat(args));
         };
     });
     return res;
@@ -104,16 +106,18 @@ export const mapActions = normalizeNamespace((namespace, actions) => {
         res[key] = function mappedAction(...args) {
             // get dispatch function from store
             let dispatch = app.$store.dispatch;
+            let nameSpaceFnName = val;
             if (namespace) {
                 const module = getModuleByNamespace(app.$store, "mapActions", namespace);
                 if (!module) {
                     return;
                 }
-                dispatch = module.context.dispatch;
+                dispatch = module.dispatch;
+                nameSpaceFnName = `${namespace}/${val}`;
             }
             return typeof val === "function"
                 ? val.apply(this, [dispatch].concat(args))
-                : dispatch.apply(app.$store, [val].concat(args));
+                : dispatch.apply(app.$store, [nameSpaceFnName].concat(args));
         };
     });
     return res;
